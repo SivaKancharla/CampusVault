@@ -40,32 +40,39 @@ export default function Header() {
         </Button>
         <Link to="/sign-in">
             {currentUser ? (
-          <Dropdown
-            arrowIcon={false}
-            inline
-            label={
-              <Avatar alt='user' img={currentUser.profilePicture} rounded />
-            }
-          >
-            <DropdownHeader>
-              <span className='block text-sm'>@{currentUser.username}</span>
-              <span className='block text-sm font-medium truncate'>
-                {currentUser.email}
-              </span>
-            </DropdownHeader>
-            <Link to={'/dashboard?tab=profile'}>
-              <DropdownItem>Profile</DropdownItem>
-            </Link>
-            <DropdownDivider />
-            <DropdownItem >Sign out</DropdownItem>
-          </Dropdown>
-        ) : (
-          <Link to='/sign-in'>
-            <Button gradientDuoTone='purpleToBlue' outline>
-              Sign In
-            </Button>
-          </Link>
-        )}
+              <Dropdown
+                arrowIcon={false}
+                inline
+                label={
+                  <Avatar
+                    alt="user"
+                    img={currentUser.profilePicture}
+                    rounded
+                  />
+                }
+              >
+                <DropdownHeader>
+                  <span className="block text-sm">@{currentUser.username}</span>
+                  <span className="block text-sm font-medium truncate">
+                    {currentUser.email}
+                  </span>
+                </DropdownHeader>
+
+                <Link to="/dashboard?tab=profile">
+                  <DropdownItem>Profile</DropdownItem>
+                </Link>
+
+                <DropdownDivider />
+
+                <DropdownItem>Sign out</DropdownItem>
+              </Dropdown>
+            ) : (
+              <Link to="/sign-in">
+                <Button gradientDuoTone="purpleToBlue" outline>
+                  Sign In
+                </Button>
+              </Link>
+            )}
         </Link>
         <NavbarToggle/>
       </div>
