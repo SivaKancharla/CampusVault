@@ -23,7 +23,7 @@ export const updateUser=async (req,res,next)=>{
         ){
             return next(errorHandler(400,'Password must be at least 8 characters and contain uppercase, lowercase, and a number'));
         }
-        req.body.password =await  bcryptjs.hashSync(password, 10);
+        req.body.password =bcryptjs.hashSync(password, 10);
     }
 
     if (req.body.username!==undefined) {

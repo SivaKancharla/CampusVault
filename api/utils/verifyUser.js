@@ -11,7 +11,7 @@ export const verifyToken = (req, res, next) => {
       return next(errorHandler(401, 'Unauthorized'));
     }
     req.user = user;
-    console.log(`Im data user (came from cookie): ${user}`);
+    // console.log(`Im data user (came from cookie): ${user}`);
     next();
   });
 };
