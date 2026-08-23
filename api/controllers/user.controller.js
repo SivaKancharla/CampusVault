@@ -12,7 +12,7 @@ export const updateUser=async (req,res,next)=>{
     if (req.user.id !== req.params.userId) {
         return next(errorHandler(403, 'You are not allowed to update this user'));
     }
-    if (req.body.password){
+    if (req.body.password!== undefined){
         const { password } = req.body;
         if(password !== password.trim()) {
             return next(errorHandler(400,'Password cannot start or end with spaces'));
@@ -23,10 +23,12 @@ export const updateUser=async (req,res,next)=>{
         ){
             return next(errorHandler(400,'Password must be at least 8 characters and contain uppercase, lowercase, and a number'));
         }
-        req.body.password = bcryptjs.hashSync(password, 10);
+        req.body.password =await  bcryptjs.hashSync(password, 10);
     }
-    if (req.body.username) {
+
+    if (req.body.username!==undefined) {
         const username = req.body.username.trim();
+        console.log(username);
         if (username.length < 3 || username.length > 20) {
             return next(
                 errorHandler(400, 'Username must be between 3 and 20 characters')
@@ -48,18 +50,56 @@ export const updateUser=async (req,res,next)=>{
         if (username.includes('..') || username.includes('__')) {
             return next(errorHandler(400,'Username cannot contain consecutive dots or underscores'));
         }
+        req.body.username = username;
+    }
+
+    if(req.body.email!==undefined){
+        const email = req.body.email.trim().toLowerCase();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            return next(
+                errorHandler(400, 'Please provide a valid email address')
+            );
+        }
+        //uncomment below if no need of clg mail restriction 
+        // if (!email.toLowerCase().endsWith('@iitism.ac.in')) {
+        //     return next(
+        //         errorHandler(400, 'Please use your IIT(ISM) college email address')
+        //     );
+        // }
+        req.body.email = email;
+    }
+    const updateFields = {};
+
+    if (req.body.username !== undefined) {
+        updateFields.username = req.body.username;
+    }
+
+    if (req.body.email !== undefined) {
+        updateFields.email = req.body.email;
+    }
+
+    if (req.body.profilePicture !== undefined) {
+        updateFields.profilePicture = req.body.profilePicture;
+    }
+
+    if (req.body.password !== undefined) {
+        updateFields.password = req.body.password;
+    }
+    if (Object.keys(updateFields).length === 0) {
+        return next(errorHandler(400, 'No changes were made'));
     }
     try {
         const updatedUser = await User.findByIdAndUpdate(
-        req.params.userId,
-        {
-            $set: { //if there then only set will update
-                username: req.body.username,
-                email: req.body.email,
-                profilePicture: req.body.profilePicture,
-                password: req.body.password,
+            req.params.userId,
+            {
+                $set: updateFields,
             },
-        },{ new: true } );
+            { new: true }
+        );
+        if (!updatedUser) {
+            return next(errorHandler(404, 'User not found'));
+        }
         const { password, ...rest } = updatedUser._doc;
         res.status(200).json(rest);
     } catch (error) {
