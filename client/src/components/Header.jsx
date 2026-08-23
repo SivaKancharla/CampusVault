@@ -38,7 +38,7 @@ export default function Header() {
         >
           {theme === 'light' ? <FaMoon /> : <FaSun />}
         </Button>
-        <Link to="/sign-in">
+        {/* <Link to="/sign-in"> */}
             {currentUser ? (
               <Dropdown
                 arrowIcon={false}
@@ -73,7 +73,7 @@ export default function Header() {
                 </Button>
               </Link>
             )}
-        </Link>
+        {/* </Link> */}
         <NavbarToggle/>
       </div>
       
