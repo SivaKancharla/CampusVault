@@ -12,10 +12,11 @@ import {
 } from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 export default function DashProfile() {
   const dispatch = useDispatch();
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error ,loading } = useSelector((state) => state.user);
 
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -244,10 +245,22 @@ export default function DashProfile() {
           className="bg-gradient-to-r from-purple-500 via-purple-600
           to-blue-500 text-white
           hover:bg-gradient-to-br focus:ring-4 focus:ring-purple-300"
-          disabled={imageFileUploading}
+          disabled={loading || imageFileUploading}
         >
-          {imageFileUploading ? 'Uploading...' : 'Update'}
+          {(loading || imageFileUploading) ? 'Uploading...' : 'Update'}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <Button
+              type='button'
+              className='w-full bg-gradient-to-r from-purple-500 via-purple-600
+          to-blue-500 text-white
+          hover:bg-gradient-to-br focus:ring-4 focus:ring-purple-300'
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </form>
 
       <div className="text-red-500 flex justify-between mt-5">
@@ -270,11 +283,11 @@ export default function DashProfile() {
         </Alert>
       )}
       
-      {/* {error && (
+       {error && (
         <Alert color='failure' className='mt-5'>
           {error}
         </Alert>
-      )}  */}
+      )}  
       
       <Modal
         show={showModal}
