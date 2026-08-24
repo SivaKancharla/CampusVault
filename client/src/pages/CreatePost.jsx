@@ -9,6 +9,7 @@ export default function CreatePost() {
   const [imageUploading, setImageUploading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
+//   console.log(formData);
   const [publishError, setPublishError] = useState(null);
 
   const navigate = useNavigate();
@@ -98,7 +99,6 @@ export default function CreatePost() {
 
       const res = await fetch('/api/post/create', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -176,6 +176,13 @@ export default function CreatePost() {
 
             <option value="nextjs">
               Next.js
+            </option>
+
+            <option value="InterviewExp">
+              Interview Expirence
+            </option>
+            <option value="OAExp">
+              OA Expirence
             </option>
           </select>
 
