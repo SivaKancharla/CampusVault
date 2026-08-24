@@ -47,10 +47,10 @@ export const signin=async (req,res,next)=>{
             return next(errorHandler(400, 'Invalid password'));
         }
         //if need the signin to remember for x days write {expiresIn:'xd'} in below
-        const token = jwt.sign({ id: validUser._id},process.env.JWT_SECRET);
+        const token = jwt.sign( { id: validUser._id , isAdmin: validUser.isAdmin } ,process.env.JWT_SECRET );
         const { password: pass, ...rest } = validUser._doc;
 
-        res.status(200).cookie('access_token', token, {httpOnly: true}).json(validUser);
+        res.status(200).cookie('access_token', token, {httpOnly: true}).json(rest);
     }catch(error){
         next(error);
     }
@@ -63,7 +63,7 @@ export const google = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (user) {
       const token = jwt.sign(
-        { id: user._id },
+        { id: user._id , isAdmin: user.isAdmin },
         process.env.JWT_SECRET
       );
       const { password, ...rest } = user._doc;
@@ -89,7 +89,7 @@ export const google = async (req, res, next) => {
       });
       await newUser.save();
       const token = jwt.sign(
-        { id: newUser._id},
+        { id: newUser._id, isAdmin: newUser.isAdmin },
         process.env.JWT_SECRET
       );
       const { password, ...rest } = newUser._doc;

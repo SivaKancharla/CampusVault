@@ -95,7 +95,7 @@ export const updateUser=async (req,res,next)=>{
             {
                 $set: updateFields,
             },
-            { new: true }
+            { returnDocument: 'after' }
         );
         if (!updatedUser) {
             return next(errorHandler(404, 'User not found'));
