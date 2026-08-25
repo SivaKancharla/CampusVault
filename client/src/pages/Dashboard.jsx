@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import DashSidebar from '../components/DashSidebar';
 import DashProfile from '../components/DashProfile';
+import DashPosts from '../components/DashPosts';
 
 export default function Dashboard() {
   const location = useLocation();
-  const [cur_tab, setTab] = useState('');
+  const [tab, setTab] = useState('');
+  // tab is cur_tab
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get('tab');
@@ -14,7 +16,7 @@ export default function Dashboard() {
       setTab(tabFromUrl);
     }
   }, [location.search]);
-  // console.log(cur_tab);
+  // console.log(tab);
   return (
     <div className='min-h-screen flex flex-col md:flex-row'>
       <div className='md:w-56'>
@@ -22,7 +24,9 @@ export default function Dashboard() {
         <DashSidebar />
       </div>
       {/* profile... */}
-      {cur_tab === 'profile' && <DashProfile />}
+      {tab === 'profile' && <DashProfile />}
+      {/* posts... */}
+      {tab === 'posts' && <DashPosts />}
       
     </div>
   )
