@@ -64,12 +64,9 @@ export default function DashPosts() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `${
-          import.meta.env.VITE_BACKEND_URL
-        }/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+        `/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
         {
           method: 'DELETE',
-          credentials: 'include',
         }
       );
       const data = await res.json();
@@ -86,6 +83,7 @@ export default function DashPosts() {
   };
 
   return (
+    //Here i was unable to dowmload tailwind scroll and im not getting errors so I'm not removing that code related to that -> scrollbar
     <div className='table-auto overflow-x-scroll 
             md:mx-auto p-3 scrollbar 
             scrollbar-track-slate-100 
@@ -96,6 +94,7 @@ export default function DashPosts() {
         <>
           <Table hoverable className='shadow-md'>
             <TableHead>
+              <TableRow>
               <TableHeadCell>Date updated</TableHeadCell>
               <TableHeadCell>Post image</TableHeadCell>
               <TableHeadCell>Post title</TableHeadCell>
@@ -104,20 +103,27 @@ export default function DashPosts() {
               <TableHeadCell>
                 <span>Edit</span>
               </TableHeadCell>
+              </TableRow>
             </TableHead>
+            {/* Moved TableBody from inside the map to outside */}
+            <TableBody className='divide-y'>
             {userPosts.map((post) => (
-              <TableBody className='divide-y'>
-                <TableRow className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+              
+                <TableRow key={post._id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                   <TableCell>
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell>
                     <Link to={`/post/${post.slug}`}>
-                      <img
+                      {post.image!=='NA'?<img
                         src={post.image}
                         alt={post.title}
                         className='w-20 h-10 object-cover bg-gray-500'
-                      />
+                      />:
+                      <p>
+                        No Image 
+                      </p>
+                        }
                     </Link>
                   </TableCell>
                   <TableCell>
@@ -149,8 +155,9 @@ export default function DashPosts() {
                     </Link>
                   </TableCell>
                 </TableRow>
-              </TableBody>
+              
             ))}
+            </TableBody>
           </Table>
           {showMore && (
             <button
@@ -178,7 +185,7 @@ export default function DashPosts() {
               Are you sure you want to delete this post?
             </h3>
             <div className='flex justify-center gap-4'>
-              <Button color='failure' onClick={handleDeletePost}>
+              <Button color='red' onClick={handleDeletePost}>
                 Yes, I'm sure
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
