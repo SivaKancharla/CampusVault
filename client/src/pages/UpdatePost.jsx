@@ -47,11 +47,11 @@ export default function UpdatePost() {
         return;
       }
 
-      // Maximum image size: 2 MB
-      const maxSize = 2 * 1024 * 1024;
+      // Maximum image size: 10 MB
+      const maxSize = 10 * 1024 * 1024;
 
       if (file.size > maxSize) {
-        setImageUploadError('Image must be less than 2 MB');
+        setImageUploadError('Image must be less than 10 MB');
         return;
       }
 

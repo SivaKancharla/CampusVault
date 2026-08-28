@@ -34,11 +34,11 @@ export default function DashProfile() {
     const file = e.target.files[0];
 
     if (file) {
-        // Maximum file size: 2 MB
-        const maxSize = 2 * 1024 * 1024;
+        // Maximum file size: 10 MB
+        const maxSize = 10 * 1024 * 1024;
 
         if (file.size > maxSize) {
-        setImageFileUploadError('Image must be less than 2 MB');
+        setImageFileUploadError('Image must be less than 10 MB');
         setImageFile(null);
         setImageFileUrl(null);
         return;
