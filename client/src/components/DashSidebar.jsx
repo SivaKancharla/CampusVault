@@ -40,6 +40,17 @@ export default function DashSidebar() {
      <Sidebar className='w-full md:w-56'>
         <SidebarItems>
              <SidebarItemGroup>
+              {currentUser && currentUser.isAdmin && (
+                <Link to='/dashboard?tab=dash'>
+                  <SidebarItem
+                    active={tab === 'dash' || !tab}
+                    icon={HiChartPie}
+                    as='div'
+                  >
+                    Dashboard
+                  </SidebarItem>
+                </Link>
+              )}
                 <Link to='/dashboard?tab=profile'>
                 <SidebarItem
                   active={tab === 'profile'}
