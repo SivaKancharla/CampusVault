@@ -1,4 +1,5 @@
 import Comment from '../models/comment.model.js';
+import { errorHandler } from '../utils/error.js';
 
 export const createComment = async (req, res, next) => {
   try {
@@ -87,7 +88,8 @@ export const deleteComment = async (req, res, next) => {
     if (!comment) {
       return next(errorHandler(404, 'Comment not found'));
     }
-    if (comment.userId !== req.user.id) {
+    //just as in the tutorail
+    if (!req.user.isAdmin && comment.userId !== req.user.id) {
       return next(
         errorHandler(403, 'You are not allowed to delete this comment')
       );

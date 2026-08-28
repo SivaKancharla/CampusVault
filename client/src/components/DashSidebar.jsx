@@ -73,6 +73,15 @@ export default function DashSidebar() {
                         Users
                       </SidebarItem>
                     </Link>
+                    <Link to='/dashboard?tab=comments'>
+                      <SidebarItem
+                        active={tab === 'comments'}
+                        icon={HiAnnotation}
+                        as='div'
+                      >
+                        Comments
+                      </SidebarItem>
+                    </Link>
                   </>
                 )}
                 <SidebarItem icon={HiArrowSmRight} className='cursor-pointer'  onClick={handleSignout}> 
