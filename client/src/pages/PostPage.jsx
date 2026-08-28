@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import CommentSection from '../components/CommentSection';
-// import PostCard from '../components/PostCard';
+import PostCard from '../components/PostCard';
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -78,7 +78,7 @@ export default function PostPage() {
         <img
             src={post && post.image}
             alt={post && post.title}
-            className='mt-10 p-3 max-h-[600px] w-full object-cover'
+            className='mt-8 mb-6 mx-auto max-h-[400px] w-full max-w-3xl object-cover rounded-lg'
         /> 
       }
       <div className='flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
@@ -95,6 +95,18 @@ export default function PostPage() {
         <CallToAction />
       </div>
       <CommentSection postId={post._id} />
+      <div className='max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-10'>
+        <h1 className='text-2xl sm:text-3xl font-semibold text-center mt-8 mb-6'>
+          Recent Articles
+        </h1>
+
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
+          {recentPosts &&
+            recentPosts.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))}
+        </div>
+      </div>
     </main>
   );
 }
