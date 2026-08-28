@@ -132,7 +132,7 @@ export default function Header() {
             </NavbarLink>
             <NavbarLink active={path==="/projects"} as={'div'}>
                 <Link to='/projects'>
-                    Projects
+                    Explore
                 </Link>
             </NavbarLink>
         </NavbarCollapse>
