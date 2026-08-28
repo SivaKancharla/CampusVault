@@ -162,6 +162,7 @@ export default function CreatePost() {
               }))
             }
           >
+            {/* if you wan to add more categorizies change here also */}
             <option value="uncategorized">
               Select a category
             </option>
